@@ -37,8 +37,6 @@ import { detectarCambios } from './lib/freshness.js';
 import { obtenerFotoDiputado } from './lib/fotos.js';
 import { obtenerLogoPartido } from './lib/logos.js';
 import { enriquecerVotacion, enriquecerVotaciones, enriquecerVotosConPerfil } from './lib/legible.js';
-import { repos, supabaseActivo } from './modules/repository.js';
-import { inyectar } from './modules/inyeccion.js';
 
 const cacheEstado = (clave) => (cache.get(clave) !== undefined ? 'HIT' : 'MISS');
 import { config } from './config.js';
@@ -97,19 +95,6 @@ function makeHandler(entries) {
         return res.status(400).json({ error: `Faltan parámetros requeridos o son inválidos. Esperado: ${expected}` });
       }
 
-      if (match.db && supabaseActivo()) {
-        const modulo = repos[match.db.repo];
-        const metodo = modulo ? modulo[match.db.metodo] : null;
-        if (metodo) {
-          const argumento = match.db.param ? params[match.db.param] : undefined;
-          const resultado = await metodo(argumento);
-          if (resultado !== null) {
-            res.set('X-Fuente', 'supabase');
-            return res.json(envelope(match, resultado));
-          }
-        }
-      }
-
       const started = Date.now();
       let { data, hit } = await fetchCachedData(
         match.service,
@@ -153,10 +138,6 @@ function makeHandler(entries) {
 
       if (match.votosPerfil) {
         payload = await enriquecerVotosConPerfil(payload);
-      }
-
-      if (match.db && supabaseActivo() && !hit) {
-        inyectar(match, data);
       }
 
       res.set('X-Cache', hit ? 'HIT' : 'MISS');

@@ -46,6 +46,30 @@ npm run dev                 # :3000 (API en /api/v1)
 Sync completo 2020-2026: `npm run sync` (tarda ~1 h, idempotente).
 Verificar huecos: `npm run auditoria [--anno AAAA] [--reparar]`.
 
+## Base de datos
+
+Postgres 15+ plano, sin servicios externos: el backend se conecta con
+`DATABASE_URL` vía `postgres.js` (singleton en `src/lib/pgDirecto.js`).
+Cumple dos roles:
+
+**1. Espejo del upstream** (escrito por `npm run sync`, upserts idempotentes;
+leído por `src/modules/fuente.js` con `ORDER BY fecha desc`):
+
+| Tablas | Contenido | Vol. 2020-2026 |
+|---|---|---|
+| `votaciones`, `votos` | Votaciones de sala + voto nominal por diputado | 10.105 / 1,33 M |
+| `sesiones`, `asistencias` | Sesiones + asistencia nominal | 914 / 140 k |
+| `diputados`, `militancias`, `periodo_diputados`, `periodos_legislativos` | Roster histórico + partidos por fecha | 633 / 1.430 |
+| `proyectos`, `proyecto_votaciones` | Leyes (nombre, autores, materias) + vínculo a sus votaciones | 5.180 / 2.867 |
+| `comisiones`, `comision_integrantes` | Comisiones + presidencias | 213 |
+| `partidos`, `distritos`, `catalogos` | Catálogos y división electoral | 50 / 28 |
+
+**2. Caché y operación**: `analiticas` (resultados computados por clave,
+TTL 6 h) y `sync_log` (bitácora de cada sync y auditoría).
+
+Inspección: `psql $DATABASE_URL` o pgweb. Esquema versionado en
+`migrations/` (se aplican en orden con `npm run db:setup`).
+
 ## Variables de entorno
 
 | Variable | Uso |

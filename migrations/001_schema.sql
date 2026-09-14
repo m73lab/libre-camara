@@ -1,5 +1,5 @@
 -- ============================================================================
--- Mi Cámara — Esquema de base de datos (Supabase / PostgreSQL 15+)
+-- Mi Cámara — Esquema de base de datos (PostgreSQL 15+)
 -- Tablas de solo lectura alimentadas por el proceso de sync desde opendata.camara.cl
 -- ============================================================================
 
