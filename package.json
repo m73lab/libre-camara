@@ -1,0 +1,22 @@
+{
+  "name": "api-camara",
+  "version": "0.1.0",
+  "description": "API REST sobre los datos abiertos de la Cámara de Diputados de Chile (opendata.camara.cl)",
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js",
+    "db:setup": "node --env-file=.env scripts/setup-db.js",
+    "sync": "node --env-file=.env scripts/sync.js",
+    "auditoria": "node --env-file=.env scripts/auditoria.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
+    "express": "^4.19.2",
+    "fast-xml-parser": "^4.4.0",
+    "postgres": "^3.4.9"
+  }
+}

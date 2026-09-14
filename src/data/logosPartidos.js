@@ -1,0 +1,18 @@
+export const LOGOS_PARTIDOS = {
+  FRVS: 'http://biografias.bcn.cl/images/b/b2/Partido_Federaci%C3%B3n_Regionalista_Verde_Social.jpg',
+  DC: 'http://biografias.bcn.cl/images/5/5b/Partido_Dem%C3%B3crata_Cristiano.jpg',
+  PSC: 'http://biografias.bcn.cl/images/c/c8/Partido_Social_Cristiano.jpg',
+  PL: 'http://biografias.bcn.cl/images/2/25/Partido_Liberal_de_Chile.jpg',
+  EVOP: 'http://biografias.bcn.cl/images/7/71/Evoluci%C3%B3n_Pol%C3%ADtica_%28Ev%C3%B3poli%29.jpg',
+  PAH: 'http://biografias.bcn.cl/images/6/6a/Partido_Acci%C3%B3n_Humanista.jpg',
+  DEM: 'http://biografias.bcn.cl/images/5/5b/Partido_Dem%C3%B3cratas_Chile.jpg',
+  UDI: 'http://biografias.bcn.cl/images/5/56/Partido_Uni%C3%B3n_Dem%C3%B3crata_Independiente.jpg',
+  RN: 'http://biografias.bcn.cl/images/3/31/Partido_Renovaci%C3%B3n_Nacional.jpg',
+  PS: 'http://biografias.bcn.cl/images/c/c4/Partido_Socialista_de_Chile.jpg',
+  PC: 'http://biografias.bcn.cl/images/5/5e/Partido_Comunista_de_Chile.jpg',
+  PNL: 'http://biografias.bcn.cl/images/b/bc/Partido_Nacional_Libertario.jpg',
+  PDG: 'http://biografias.bcn.cl/images/3/31/Partido_de_la_Gente.jpg',
+  FA: 'http://biografias.bcn.cl/images/e/e9/Frente_Amplio.jpg',
+  PREP: 'http://biografias.bcn.cl/images/c/c2/Partido_Republicano_de_Chile.jpg',
+  PPD: 'http://biografias.bcn.cl/images/d/d1/Partido_Por_la_Democracia.jpg',
+};
