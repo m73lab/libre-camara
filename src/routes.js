@@ -37,6 +37,8 @@ import { detectarCambios } from './lib/freshness.js';
 import { obtenerFotoDiputado } from './lib/fotos.js';
 import { obtenerLogoPartido } from './lib/logos.js';
 import { enriquecerVotacion, enriquecerVotaciones, enriquecerVotosConPerfil } from './lib/legible.js';
+import { adjuntarFichaVotacion } from './lib/fichaVotacion.js';
+import { adjuntarFichaSenado } from './lib/fichaSenado.js';
 
 const cacheEstado = (clave) => (cache.get(clave) !== undefined ? 'HIT' : 'MISS');
 import { config } from './config.js';
@@ -138,6 +140,14 @@ function makeHandler(entries) {
 
       if (match.votosPerfil) {
         payload = await enriquecerVotosConPerfil(payload);
+      }
+
+      if (match.fichaVotacion && payload && !Array.isArray(payload)) {
+        payload = await adjuntarFichaVotacion(payload);
+      }
+
+      if (match.fichaSenado && payload && !Array.isArray(payload)) {
+        payload = await adjuntarFichaSenado(payload);
       }
 
       res.set('X-Cache', hit ? 'HIT' : 'MISS');

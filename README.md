@@ -87,13 +87,13 @@ Inspección: `psql $DATABASE_URL` o pgweb. Esquema versionado en
 | Ruta | Descripción |
 |---|---|
 | `GET /votaciones?anno=` | Votaciones de sala (más recientes primero) |
-| `GET /votaciones/:id` | Detalle nominal + contexto del día |
+| `GET /votaciones/:id` | Detalle nominal + contexto del día + ficha (sesión, boletín, trámite codificado) |
 | `GET /diputados/periodo-actual` | Roster vigente con distrito |
 | `GET /diputados/:id` | Ficha + militancias + distrito |
 | `GET /diputados/:id/votaciones?anno=` | Historial nominal con su voto |
 | `GET /diputados/:id/asistencia?anno=` · `/mociones` · `/comisiones` · `/foto` | Perfil extendido |
 | `GET /sesiones?anno=` · `/sesiones/:id` | Sesiones y asistencia nominal |
-| `GET /proyectos/:boletin` | Ficha (autores, materias, vínculos) |
+| `GET /proyectos/:boletin` | Ficha (autores, materias, vínculos) + ficha Senado (etapa real, texto completo, historial) |
 | `GET /proyectos/por-ley/:numero` · `/proyectos/acuerdos` · `/proyectos/resoluciones` | Otros cuerpos |
 | `GET /comisiones` · `/comisiones/:id` · `/comisiones/periodo/:id` | Comisiones (con flag `disuelta`) |
 | `GET /distritos` · `/comunas/:nombre/diputados` | División electoral y búsqueda por comuna |

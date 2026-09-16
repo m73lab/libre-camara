@@ -105,13 +105,7 @@ export function derivarEtapa(articulo) {
 async function resolver(descripcion, fecha) {
   let match;
   if ((match = descripcion.match(RE_BOLETIN))) {
-    const key = `b|${match[1]}`;
-    if (!memo.has(key)) {
-      const p = await buscarProyecto(match[1]);
-      if (p) memo.set(key, p);
-      return p;
-    }
-    return memo.get(key);
+    return resolverProyecto(match[1]);
   }
   const annoVot = new Date(fecha || Date.now()).getFullYear();
   if ((match = descripcion.match(RE_RESOLUCION))) {
@@ -133,6 +127,16 @@ async function resolver(descripcion, fecha) {
     return memo.get(key);
   }
   return null;
+}
+
+export async function resolverProyecto(boletin) {
+  const key = `b|${boletin}`;
+  if (!memo.has(key)) {
+    const p = await buscarProyecto(boletin);
+    if (p) memo.set(key, p);
+    return p;
+  }
+  return memo.get(key);
 }
 
 export async function enriquecerVotacion(votacion) {

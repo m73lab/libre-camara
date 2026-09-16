@@ -72,3 +72,21 @@ del upstream y del parámetro `DIETA_MENSUAL`. Presentar siempre como estimació
 Memoria (TTL 300s–3600s según endpoint) + Postgres tabla `analiticas`
 (6 h). La primera consulta de un cálculo pesado tarda (analiza el año
 completo); las siguientes son instantáneas.
+
+## 8. Fuentes secundarias (fichas)
+
+Además de los WServices, se consulta bajo demanda (lazy, con negative-cache
+de 1 h y persistencia en columnas `ficha` / `ficha_senado`):
+
+- **Sistema antiguo Cámara** (`wscamaradiputados.asmx/getVotacion_Detalle`,
+  mismos IDs): `Sesion` (ID/número/fecha), `Boletin`, `Articulo` y
+  `Tramite`/`Informe` codificados. Reemplaza la derivación por regex cuando
+  existe. **Límite**: votaciones de trámite puro sin boletín devuelven vacío
+  (`1-Otros`); para esas se mantiene el contexto del día.
+- **Senado** (`tramitacion.php?boletin=`): etapa/subetapa/estado real,
+  urgencia actual, n° de ley si promulgada, link al texto completo
+  (`link_mensaje_mocion`) e historial completo de tramitación y urgencias
+  (fechas `dd/mm/aaaa` normalizadas a ISO). Los números de resolución se
+  repiten entre años: ver punto 5.
+- **Actas de sesión** (`getSesionBoletinXML`): **descartadas** — vacías para
+  2025-2026 (solo sesiones antiguas traen contenido).

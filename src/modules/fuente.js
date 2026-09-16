@@ -24,6 +24,7 @@ function shapeVotacion(r) {
     resultado: textoObj(r.resultado),
     tipo: textoObj(r.tipo),
     articulo: r.articulo || null,
+    ficha: r.ficha || null,
   };
 }
 
@@ -254,6 +255,7 @@ async function proyecto(boletin) {
     numeroBoletin: p.boletin,
     nombre: p.nombre,
     fechaIngreso: p.fecha_ingreso,
+    fichaSenado: p.ficha_senado || null,
     tipoIniciativa: textoObj(p.tipo_iniciativa),
     camaraOrigen: textoObj(p.camara_origen),
     admisible: p.admisible === true || p.admisible === 'true',

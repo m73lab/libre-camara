@@ -1,6 +1,6 @@
 {
   "name": "api-camara",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "API REST sobre los datos abiertos de la Cámara de Diputados de Chile (opendata.camara.cl)",
   "type": "module",
   "engines": {
