@@ -111,6 +111,7 @@ Inspección: `psql $DATABASE_URL` o pgweb. Esquema versionado en
 | `GET /brechas?anno=` · `/horarios` · `/cementerio` · `/analitica-temporal` · `/velocidad-ley` | Cortes demográficos y temporales |
 | `GET /cruces/fiscalizacion` · `/agenda` · `/faltas` · `/cambios-voto` · `/edad` · `/distritos` · `/fatiga` · `/bloques` · `/materias` · `/afinidad-partidos` | Cruces entre dimensiones |
 | `GET /afinidad` · `/diputados/:id/afinidad` · `/transfuguismo` · `/trayectoria` | Afinidades y cambios de partido |
+| `GET /hallazgos/performativos` · `/banzhaf` · `/bancadas` · `/fantasmas` · `/hora-bruja` · `/cementerio-vip` | Hallazgos: voto performativo, poder de bloque, bancadas territoriales, fantasmas, hora bruja, cementerio VIP |
 
 Los endpoints con dependencia upstream inestable devuelven `parcial: true`
 (y por año `ok: false`) en vez de un 502. Detalles y limitaciones en

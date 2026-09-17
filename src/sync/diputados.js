@@ -3,6 +3,7 @@ import { parseUpstreamXml } from '../lib/xml.js';
 import { upsert, reemplazarTodo, logSync, bdEscrituraDisponible } from './util.js';
 import { buscarDiputado } from '../lib/distritos.js';
 import { LOGOS_PARTIDOS } from '../data/logosPartidos.js';
+import { nombrePartido } from '../data/partidosCanonicos.js';
 
 function partidoActual(diputado) {
   const militancias = diputado.militancias || [];
@@ -49,7 +50,12 @@ export async function syncDiputados() {
   const partidos = new Map();
   for (const d of diputados) {
     for (const m of d.militancias || []) {
-      if (m.partido?.alias) partidos.set(m.partido.alias, m.partido);
+      if (m.partido?.alias) {
+        partidos.set(m.partido.alias, {
+          alias: m.partido.alias,
+          nombre: nombrePartido(m.partido.alias, m.partido.nombre),
+        });
+      }
     }
   }
   await upsert(

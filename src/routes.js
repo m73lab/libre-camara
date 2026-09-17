@@ -39,6 +39,14 @@ import { obtenerLogoPartido } from './lib/logos.js';
 import { enriquecerVotacion, enriquecerVotaciones, enriquecerVotosConPerfil } from './lib/legible.js';
 import { adjuntarFichaVotacion } from './lib/fichaVotacion.js';
 import { adjuntarFichaSenado } from './lib/fichaSenado.js';
+import {
+  getPerformativos,
+  getBanzhaf,
+  getBancadasTerritoriales,
+  getFantasmas,
+  getHoraBruja,
+  getCementerioVip,
+} from './lib/hallazgos.js';
 
 const cacheEstado = (clave) => (cache.get(clave) !== undefined ? 'HIT' : 'MISS');
 import { config } from './config.js';
@@ -461,6 +469,38 @@ export function buildApp() {
       return next(err);
     }
   });
+
+  const hallazgoAnno = (clave, fn) => async (req, res, next) => {
+    try {
+      const anno = req.query.anno || String(new Date().getFullYear());
+      if (!/^\d{4}$/.test(anno)) {
+        return res.status(400).json({ error: '?anno=AAAA' });
+      }
+      await detectarCambios(anno);
+      res.set('X-Cache', cacheEstado(`analitica.${clave}.${anno}`));
+      const data = await fn(anno);
+      const items = data.items ?? data;
+      return res.json({
+        data: items,
+        meta: {
+          count: (items || []).length,
+          anno,
+          parcial: !!data.parcial,
+          totalVotaciones: data.totalVotaciones ?? null,
+          analizadas: data.analizadas ?? null,
+        },
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  router.get('/hallazgos/performativos', hallazgoAnno('performativos', getPerformativos));
+  router.get('/hallazgos/banzhaf', hallazgoAnno('banzhaf', getBanzhaf));
+  router.get('/hallazgos/bancadas', hallazgoAnno('bancadas', getBancadasTerritoriales));
+  router.get('/hallazgos/fantasmas', hallazgoAnno('fantasmas', getFantasmas));
+  router.get('/hallazgos/hora-bruja', hallazgoAnno('horabruja', getHoraBruja));
+  router.get('/hallazgos/cementerio-vip', hallazgoAnno('cementeriovip', getCementerioVip));
 
   router.get('/rankings', async (req, res, next) => {
     try {

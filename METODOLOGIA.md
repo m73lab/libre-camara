@@ -73,7 +73,25 @@ Memoria (TTL 300s–3600s según endpoint) + Postgres tabla `analiticas`
 (6 h). La primera consulta de un cálculo pesado tarda (analiza el año
 completo); las siguientes son instantáneas.
 
-## 8. Fuentes secundarias (fichas)
+## 8. Hallazgos (`/hallazgos/*`)
+
+- **Performativos**: tasa de rebeldía en votaciones holgadas (margen > 3)
+  menos tasa en estrechas (margen ≤ 3); mínimo 15 holgadas y 5 estrechas.
+  Independientes excluidos (sin bancada contra la cual rebelarse).
+- **Poder real**: por votación y partido, se dan vuelta todos sus votos
+  (afirmativo↔en contra) y se recalcula el resultado con el quórum del año;
+  pivotal si cambia. Índice = pivotales/analizadas.
+- **Bancadas territoriales**: rebeldes (contra la mayoría de su partido)
+  agrupados por región y lado; se reportan grupos de 3+ en la misma votación.
+- **Fantasmas**: `noVota/votaciones del año` con asistencia ≥ 70% y ≥ 5
+  no-votos. Proxy de "presente que no vota" (el cruce exacto por sesión
+  queda como mejora).
+- **Hora bruja**: hora de la votación × iniciativa (moción/mensaje según
+  boletín en tabla `proyectos`, con fallback a listas 2020–año). Boletas de
+  ingreso anterior a 2020 quedan sin clasificar.
+- **Cementerio VIP**: mociones del año con 0 votaciones, top 20 por firmas.
+
+## 9. Fuentes secundarias (fichas)
 
 Además de los WServices, se consulta bajo demanda (lazy, con negative-cache
 de 1 h y persistencia en columnas `ficha` / `ficha_senado`):
